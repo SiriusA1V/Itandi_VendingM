@@ -84,7 +84,7 @@ class VM
 
   #3-1, 3-2 購入
   def purchase(name)
-    if check(name)　　　　#　帰るのか確認した後購入作業実行
+    if check(name)　　　　#　買えるのか確認した後購入作業実行
       stock = @juice_arr[name+"_stock"]
       price = @juice_arr[name]
 
