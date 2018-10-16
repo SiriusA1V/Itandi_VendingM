@@ -1,56 +1,79 @@
+
+#########################################################################
+# PROJECT : Itandi_VendingMachine
+# Data    : 2018-10-15
+# Name    : Choe Yohan
+#
+# --- 関数整理 ---
+# coin_input(coin)                 # お金の投入
+# now_coin()                       # 投入金額の総計
+# refund()                         # 払い戻し
+# rt_coin(coin)                    # 想定外のもの払い戻し
+# stock_input(name, price, stock)  # ジュース１種類格納
+# get_stock()                      # ジュースの情報を取得
+# check_cola()                     # コーラの購入できるか確認
+# purchase(name)                   # 購入
+# get_sales()                      # 売上金額を取得
+# add_juice()                      # レッドブル, 水を追加
+# check_Purchase_list()            # 購入可能なドリンクのリストを取得
+# check(name)                      # 買えるのか確認
+#
+#########################################################################
+
+
+
 class VM
 
   def initialize()
     @sales     = 0
     @all_coin  = 0
-    @juice_arr = {'cola' => 120, 'cola_stock' => 5}   #2-1 초기상태
+    @juice_arr = {'cola' => 120, 'cola_stock' => 5}   #2-1 初期状態
     @juice_list = ["cola"]
   end
 
+  #0-0 お金の投入
   def coin_input(coin)
-    #0-0 투입
     if coin == 10 or coin == 50 or coin == 100 or coin == 500 or coin == 1000
       @all_coin += coin
     else
-      #1-0 상정 외 돈 반환 함수 호출
+      #1-0 想定外のもの払い戻しの関数を呼ぶ
       rt_coin(coin)
     end
   end
 
-  #0-2 총금 확인
+  #0-2 投入金額の総計
   def now_coin()
     return @all_coin
   end
 
-  #0-3 환불
+  #0-3 払い戻し
   def refund()
     all_coin_save = @all_coin
     @all_coin = 0
 
-    #거슬러 주는 기능
     printf('Refund : ',all_coin_save)
     return all_coin_save;
   end
 
-  #1-0 상정 외 돈 반환 기능
+  #1-0 想定外のもの払い戻し
   def rt_coin(coin)
     print("Please check the money. - ",coin)
     return coin
   end
 
-  #2-0 1종류 격납가능
+  #2-0 ジュース１種類格納
   def stock_input(name, price, stock)
     @juice_arr[name] = price
     @juice_arr[name+"_stock"] = stock
     @juice_list << name
   end
 
-  #2-2 주스 정보 획득
+  #2-2 ジュースの情報を取得
   def get_stock()
     return @juice_arr
   end
 
-  #3-0 콜라 구입 할 수 있는지 여부 취득
+  #3-0 コーラの購入できるか確認
   def check_cola()
     if check("cola")
       return true
@@ -59,7 +82,7 @@ class VM
     end
   end
 
-  #3-1, 3-2 구입 조작 = 확인, 구입, 매상, 재고, 총액수
+  #3-1, 3-2 購入
   def purchase(name)
     if check(name)
       stock = @juice_arr[name+"_stock"]
@@ -69,25 +92,25 @@ class VM
       @sales = price
       @juice_arr[name+"_stock"] -= 1
 
-      #5-0 구매후 반환
+      #5-0 購入後、払い戻し
       refund()
     else
       #Nothing
     end
   end
 
-  #3-3 현재 매상 금액 취득
+  #3-3 売上金額を取得
   def get_sales()
     return @sales
   end
 
-  #4-0, 4-1 레드불, 물 추가
+  #4-0, 4-1 レッドブル, 水を追加
   def add_juice()
     stock_input("redbull", 200, 5)
     stock_input("water", 100, 5)
   end
 
-  #4-2 투입금액, 재고면 구입 가능 목록
+  #4-2 購入可能なドリンクのリストを取得
   def check_Purchase_list()
     ture_Purchase_list = Array.new()
 
@@ -100,7 +123,7 @@ class VM
     return ture_Purchase_list
   end
 
-  #살수 있는지 확인
+  #買えるのか確認
   def check(name)
     stock = @juice_arr[name+"_stock"]
     price = @juice_arr[name]
@@ -113,16 +136,3 @@ class VM
   end
 
 end
-
-c1 = VM.new()
-
-p c1.check_Purchase_list()
-p c1.add_juice()
-p c1.get_stock()
-p c1.coin_input(500)
-p c1.now_coin()
-p c1.check_Purchase_list()
-p c1.purchase("cola")
-p c1.now_coin()
-p c1.get_sales()
-p c1.get_stock()
