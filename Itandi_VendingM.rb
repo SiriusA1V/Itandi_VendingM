@@ -25,8 +25,8 @@
 class VM
 
   def initialize()
-    @sales     = 0
-    @all_coin  = 0
+    @sales     = 0    # 売上金額
+    @all_coin  = 0    # 投入金額
     @juice_arr = {'cola' => 120, 'cola_stock' => 5}   #2-1 初期状態
     @juice_list = ["cola"]
   end
@@ -84,7 +84,7 @@ class VM
 
   #3-1, 3-2 購入
   def purchase(name)
-    if check(name)
+    if check(name)　　　　#　帰るのか確認した後購入作業実行
       stock = @juice_arr[name+"_stock"]
       price = @juice_arr[name]
 
@@ -115,7 +115,7 @@ class VM
     ture_Purchase_list = Array.new()
 
     for index in 0 ... @juice_list.size
-      if check(@juice_list[index])
+      if check(@juice_list[index])    # 買えるのか確認した後リストに追加
         ture_Purchase_list << @juice_list[index]
       end
     end
